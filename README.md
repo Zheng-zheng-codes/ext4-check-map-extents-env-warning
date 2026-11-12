@@ -94,7 +94,7 @@ C-repro stage passes for this bug.
 - `kernel.config` — kernel configuration used (also required to interpret addresses)
 - `environment.txt` — kernel image info (sha256), QEMU command line, syzkaller commit, reproducer command
 - `reproducer/repro.kernsight.prog` — pipeline-verified reproducer (105-program multi-program execution log)
-- `reproducer/repro.prog` — pipeline-extracted isolated triggering testcase; has not reproduced this warning independently
+- `reproducer/repro.prog` — original pipeline-extracted program, retained for pipeline evidence; not a standalone reproducer
 - `reproducer/repro.priming.prog` — state-priming program set (pipeline repro recipe)
 - `logs/log-*.txt`, `logs/report-*.txt` — original syzkaller execution logs and crash reports from the fuzzing pipeline
 - `logs/machineInfo-*.txt`, `logs/title-stat.json` — guest environment info and title statistics
