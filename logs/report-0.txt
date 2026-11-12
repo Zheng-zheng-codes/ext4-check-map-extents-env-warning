@@ -1,0 +1,155 @@
+------------[ cut here ]------------
+!inode_is_locked(inode) && !rwsem_is_locked(&inode->i_mapping->invalidate_lock)
+WARNING: fs/ext4/inode.c:517 at ext4_check_map_extents_env+0x4b4/0x590 fs/ext4/inode.c:517, CPU#0: syz.8.7999/132148
+Modules linked in:
+CPU: 0 UID: 0 PID: 132148 Comm: syz.8.7999 Tainted: G             L      7.4.0-rc2-kernsight-kasan #1 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:ext4_check_map_extents_env+0x4b4/0x590 fs/ext4/inode.c:517
+Code: c1 ea 03 80 3c 02 00 0f 85 ad 00 00 00 48 8b 5b 58 31 ff 48 89 de e8 9b df 12 ff 48 85 db 0f 85 39 fc ff ff e8 4d e5 12 ff 90 <0f> 0b 90 e9 2b fc ff ff e8 3f e5 12 ff 48 89 ee bf 02 00 00 00 e8
+RSP: 0018:ffa0000009956e88 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ff11000046110000 RSI: ffffffff82b74d23 RDI: 0000000000000007
+RBP: ff1100014de5df50 R08: ffffffff82b74d15 R09: 0000000000000000
+R10: ff1100014de5df57 R11: 0000000000000001 R12: ff1100014de5daf0
+R13: ff11000027145400 R14: 0000000000000000 R15: 0000000000000000
+FS:  00007fe585fe3640(0000) GS:ff1100010b21e000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055dcf6e26fc8 CR3: 0000000028b5f000 CR4: 0000000000753ef0
+PKRU: 80000000
+Call Trace:
+ <TASK>
+ ext4_map_blocks+0xb06/0x14d0 fs/ext4/inode.c:809
+ ext4_mpage_readpages+0xf12/0x1930 fs/ext4/readpage.c:219
+ ext4_read_folio+0x1e7/0x560 fs/ext4/readpage.c:339
+ filemap_read_folio+0xc4/0x2a0 mm/filemap.c:2549
+ do_read_cache_folio+0x255/0x5a0 mm/filemap.c:4174
+ do_read_cache_page mm/filemap.c:4240 [inline]
+ read_cache_page+0x62/0x150 mm/filemap.c:4249
+ read_mapping_page include/linux/pagemap.h:1006 [inline]
+ __copy_insn kernel/events/uprobes.c:1061 [inline]
+ copy_insn kernel/events/uprobes.c:1087 [inline]
+ prepare_uprobe kernel/events/uprobes.c:1112 [inline]
+ install_breakpoint+0x2f2/0x8c0 kernel/events/uprobes.c:1161
+ uprobe_mmap+0x5b4/0x1070 kernel/events/uprobes.c:1632
+ __mmap_complete mm/vma.c:2816 [inline]
+ __mmap_region+0xab2/0x3b70 mm/vma.c:3100
+ mmap_region+0x2e6/0x6a0 mm/vma.c:3173
+ do_mmap+0xd69/0x1b20 mm/mmap.c:573
+ vm_mmap_pgoff+0x276/0x4a0 mm/util.c:581
+ ksys_mmap_pgoff+0x3c7/0x630 mm/mmap.c:619
+ __do_sys_mmap arch/x86/kernel/sys_x86_64.c:96 [inline]
+ __se_sys_mmap arch/x86/kernel/sys_x86_64.c:89 [inline]
+ __x64_sys_mmap+0x12c/0x190 arch/x86/kernel/sys_x86_64.c:89
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x132/0x7c0 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe5851b2b7d
+Code: 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fe585fe2f98 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
+RAX: ffffffffffffffda RBX: 00007fe585445fa0 RCX: 00007fe5851b2b7d
+RDX: 0000000000000001 RSI: 0000000000000005 RDI: 0000000000000000
+RBP: 00007fe585250273 R08: 000000000000000b R09: 0000000000000000
+R10: 000000000001c012 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fe585446038 R14: 00007fe585445fa0 R15: 00007fe585fc3000
+ </TASK>
+
+<<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
+
+Modules linked in:
+CPU: 0 UID: 0 PID: 132148 Comm: syz.8.7999 Tainted: G             L      7.4.0-rc2-kernsight-kasan #1 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:ext4_check_map_extents_env+0x4b4/0x590
+Code: c1 ea 03 80 3c 02 00 0f 85 ad 00 00 00 48 8b 5b 58 31 ff 48 89 de e8 9b df 12 ff 48 85 db 0f 85 39 fc ff ff e8 4d e5 12 ff 90 <0f> 0b 90 e9 2b fc ff ff e8 3f e5 12 ff 48 89 ee bf 02 00 00 00 e8
+RSP: 0018:ffa0000009956e88 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ff11000046110000 RSI: ffffffff82b74d23 RDI: 0000000000000007
+RBP: ff1100014de5df50 R08: ffffffff82b74d15 R09: 0000000000000000
+R10: ff1100014de5df57 R11: 0000000000000001 R12: ff1100014de5daf0
+R13: ff11000027145400 R14: 0000000000000000 R15: 0000000000000000
+FS:  00007fe585fe3640(0000) GS:ff1100010b21e000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055dcf6e26fc8 CR3: 0000000028b5f000 CR4: 0000000000753ef0
+PKRU: 80000000
+Call Trace:
+ <TASK>
+ ext4_map_blocks+0xb06/0x14d0
+ ext4_mpage_readpages+0xf12/0x1930
+ ext4_read_folio+0x1e7/0x560
+ filemap_read_folio+0xc4/0x2a0
+ do_read_cache_folio+0x255/0x5a0
+ read_cache_page+0x62/0x150
+ install_breakpoint+0x2f2/0x8c0
+ uprobe_mmap+0x5b4/0x1070
+ __mmap_region+0xab2/0x3b70
+ mmap_region+0x2e6/0x6a0
+ do_mmap+0xd69/0x1b20
+ vm_mmap_pgoff+0x276/0x4a0
+ ksys_mmap_pgoff+0x3c7/0x630
+ __x64_sys_mmap+0x12c/0x190
+ do_syscall_64+0x132/0x7c0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe5851b2b7d
+Code: 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fe585fe2f98 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
+RAX: ffffffffffffffda RBX: 00007fe585445fa0 RCX: 00007fe5851b2b7d
+RDX: 0000000000000001 RSI: 0000000000000005 RDI: 0000000000000000
+RBP: 00007fe585250273 R08: 000000000000000b R09: 0000000000000000
+R10: 000000000001c012 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fe585446038 R14: 00007fe585445fa0 R15: 00007fe585fc3000
+ </TASK>
+Kernel panic - not syncing: kernel: panic_on_warn set ...
+CPU: 0 UID: 0 PID: 132148 Comm: syz.8.7999 Tainted: G             L      7.4.0-rc2-kernsight-kasan #1 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x3d/0x1b0
+ vpanic+0x726/0x7f0
+ panic+0xc7/0xd0
+ check_panic_on_warn+0xb6/0xc0
+ __warn+0x10d/0x400
+ __report_bug+0x4aa/0x5a0
+ report_bug+0xb3/0x210
+ handle_bug+0x2d7/0x4e0
+ exc_invalid_op+0x35/0x80
+ asm_exc_invalid_op+0x1a/0x20
+RIP: 0010:ext4_check_map_extents_env+0x4b4/0x590
+Code: c1 ea 03 80 3c 02 00 0f 85 ad 00 00 00 48 8b 5b 58 31 ff 48 89 de e8 9b df 12 ff 48 85 db 0f 85 39 fc ff ff e8 4d e5 12 ff 90 <0f> 0b 90 e9 2b fc ff ff e8 3f e5 12 ff 48 89 ee bf 02 00 00 00 e8
+RSP: 0018:ffa0000009956e88 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ff11000046110000 RSI: ffffffff82b74d23 RDI: 0000000000000007
+RBP: ff1100014de5df50 R08: ffffffff82b74d15 R09: 0000000000000000
+R10: ff1100014de5df57 R11: 0000000000000001 R12: ff1100014de5daf0
+R13: ff11000027145400 R14: 0000000000000000 R15: 0000000000000000
+ ext4_map_blocks+0xb06/0x14d0
+ ext4_mpage_readpages+0xf12/0x1930
+ ext4_read_folio+0x1e7/0x560
+ filemap_read_folio+0xc4/0x2a0
+ do_read_cache_folio+0x255/0x5a0
+ read_cache_page+0x62/0x150
+ install_breakpoint+0x2f2/0x8c0
+ uprobe_mmap+0x5b4/0x1070
+ __mmap_region+0xab2/0x3b70
+ mmap_region+0x2e6/0x6a0
+ do_mmap+0xd69/0x1b20
+ vm_mmap_pgoff+0x276/0x4a0
+ ksys_mmap_pgoff+0x3c7/0x630
+ __x64_sys_mmap+0x12c/0x190
+ do_syscall_64+0x132/0x7c0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe5851b2b7d
+Code: 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fe585fe2f98 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
+RAX: ffffffffffffffda RBX: 00007fe585445fa0 RCX: 00007fe5851b2b7d
+RDX: 0000000000000001 RSI: 0000000000000005 RDI: 0000000000000000
+RBP: 00007fe585250273 R08: 000000000000000b R09: 0000000000000000
+R10: 000000000001c012 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fe585446038 R14: 00007fe585445fa0 R15: 00007fe585fc3000
+ </TASK>
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
+
+<<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
+
